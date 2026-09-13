@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ismail Chamadia — Software Engineer</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0c0c0c;--text:#ededed;--muted:#888;--subtle:#3a3a3a;
+  --accent:#c9a84c;--border:#1e1e1e;--card:#111111;--tag:#181818;
+  --font-serif:'Georgia','Times New Roman',serif;
+  --font-sans:'Helvetica Neue',Arial,sans-serif;
+  --font-mono:'Courier New',monospace;
+}
+[data-theme="light"]{
+  --bg:#f5f5f0;--text:#111;--muted:#666;--subtle:#ccc;
+  --accent:#8b6914;--border:#ddd;--card:#fff;--tag:#eee;
+}
+
+html{scroll-behavior:smooth;font-size:16px}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border)}
+
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-sans);line-height:1.6;
+  transition:background .35s,color .35s;
+  overflow-x:hidden;
+}
+
+/* ── NAV ─────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 2rem;
+  background:rgba(12,12,12,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  transition:background .35s,border-color .35s;
+}
+[data-theme="light"] nav{background:rgba(245,245,240,.9)}
+.nav-logo{
+  font-family:var(--font-mono);font-size:.82rem;
+  letter-spacing:.08em;color:var(--text);text-decoration:none;
+  transition:opacity .2s;
+}
+.nav-logo:hover{opacity:.6}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  font-family:var(--font-mono);
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;
+  height:1px;background:var(--text);
+  transform:scaleX(0);transform-origin:left;transition:transform .25s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a.active::after,.nav-links a:hover::after{transform:scaleX(1)}
+.theme-btn{
+  background:none;border:1px solid var(--border);cursor:pointer;
+  color:var(--text);font-size:1rem;width:32px;height:32px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.theme-btn:hover{border-color:var(--subtle);transform:rotate(180deg)}
+
+/* ── HERO ────────────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:2rem;padding-top:7rem;
+  position:relative;overflow:hidden;
+}
+.hero-ghost{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--font-serif);
+  font-size:clamp(6rem,18vw,18rem);font-weight:700;
+  color:transparent;
+  -webkit-text-stroke:1px var(--border);
+  pointer-events:none;white-space:nowrap;letter-spacing:-.02em;
+  user-select:none;opacity:.5;
+}
+.hero-inner{position:relative;z-index:1;max-width:960px;margin:0 auto;width:100%}
+.hero-name{
+  font-family:var(--font-serif);
+  font-size:clamp(3.5rem,11vw,9rem);
+  font-weight:700;line-height:.92;letter-spacing:-.03em;
+  animation:fadeUp .8s ease forwards .2s;opacity:0;
+}
+.hero-role{
+  font-size:clamp(1.1rem,2.5vw,1.8rem);
+  font-family:var(--font-serif);font-style:italic;
+  color:var(--muted);margin-top:.6rem;margin-bottom:1.8rem;
+  animation:fadeUp .8s ease forwards .4s;opacity:0;
+}
+.hero-tagline{
+  font-size:clamp(.9rem,1.4vw,1.05rem);color:var(--muted);
+  max-width:560px;line-height:1.75;margin-bottom:2.5rem;
+  animation:fadeUp .8s ease forwards .6s;opacity:0;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:2.5rem;margin-bottom:3rem;
+  animation:fadeUp .8s ease forwards .8s;opacity:0;
+}
+.meta-item{display:flex;flex-direction:column;gap:.15rem}
+.meta-label{
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-family:var(--font-mono);
+}
+.meta-value{font-size:.88rem;font-weight:600}
+.dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#4ade80;margin-right:6px;
+  animation:blink 2.2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-stats{
+  display:flex;gap:3rem;flex-wrap:wrap;
+  padding-top:2rem;border-top:1px solid var(--border);
+  animation:fadeUp .8s ease forwards 1s;opacity:0;
+}
+.stat{display:flex;flex-direction:column}
+.stat-num{
+  font-family:var(--font-mono);
+  font-size:clamp(2rem,4vw,2.8rem);
+  font-weight:700;line-height:1;color:var(--text);
+}
+.stat-lbl{
+  font-size:.68rem;color:var(--muted);
+  letter-spacing:.05em;margin-top:.35rem;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────── */
+.band{
+  border-top:1px solid var(--border);
+  padding:5rem 2rem;
+}
+.inner{max-width:960px;margin:0 auto}
+.sec-num{
+  font-family:var(--font-mono);font-size:.72rem;
+  color:var(--muted);letter-spacing:.1em;margin-bottom:.6rem;
+}
+.sec-title{
+  font-family:var(--font-serif);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;line-height:1.08;
+  margin-bottom:2.5rem;letter-spacing:-.02em;
+}
+.sec-title em{font-style:italic;color:var(--muted)}
+
+/* ── ABOUT ───────────────────────────────────────────────────── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+.about-text{font-size:.97rem;line-height:1.85;color:var(--muted)}
+.about-text strong{color:var(--text)}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.8rem}
+.chip{
+  font-family:var(--font-mono);font-size:.73rem;
+  padding:.3rem .72rem;background:var(--tag);
+  border:1px solid var(--border);border-radius:2px;color:var(--muted);
+  transition:all .2s;cursor:default;
+}
+.chip:hover{color:var(--text);border-color:var(--subtle)}
+
+/* ── STACK ───────────────────────────────────────────────────── */
+.stack-rows{display:flex;flex-direction:column;gap:.2rem}
+.stack-row{
+  display:grid;grid-template-columns:150px 1fr;gap:1.5rem;
+  padding:1.3rem 0;border-bottom:1px solid var(--border);align-items:start;
+}
+.row-label{
+  font-family:var(--font-mono);font-size:.72rem;
+  color:var(--muted);letter-spacing:.06em;padding-top:.25rem;
+}
+.row-items{display:flex;flex-wrap:wrap;gap:.4rem}
+.sitem{
+  font-size:.83rem;padding:.32rem .78rem;
+  background:var(--tag);border:1px solid var(--border);
+  border-radius:3px;transition:all .2s;cursor:default;
+}
+.sitem:hover{background:var(--border);border-color:var(--subtle)}
+
+/* ── EXPERIENCE ──────────────────────────────────────────────── */
+.exp-list{display:flex;flex-direction:column;gap:0}
+.exp-item{
+  display:grid;grid-template-columns:220px 1fr;gap:2rem;
+  padding:2.5rem 0;border-bottom:1px solid var(--border);
+}
+.exp-date{
+  font-family:var(--font-mono);font-size:.75rem;
+  color:var(--muted);line-height:1.7;padding-top:.3rem;
+}
+.exp-title{font-size:1.05rem;font-weight:700;margin-bottom:.2rem}
+.exp-company{font-size:.85rem;color:var(--accent);margin-bottom:.8rem;font-family:var(--font-mono)}
+.exp-desc{font-size:.88rem;color:var(--muted);line-height:1.75}
+
+/* ── EDUCATION ───────────────────────────────────────────────── */
+.edu-card{
+  padding:2rem;background:var(--card);border:1px solid var(--border);
+  border-radius:4px;margin-bottom:2rem;
+  transition:border-color .2s;
+}
+.edu-card:hover{border-color:var(--subtle)}
+.edu-deg{font-size:1.1rem;font-weight:700;margin-bottom:.3rem}
+.edu-school{font-size:.88rem;color:var(--muted);margin-bottom:.5rem}
+.edu-gpa{font-family:var(--font-mono);font-size:.8rem;color:var(--accent)}
+blockquote{
+  border-left:2px solid var(--accent);
+  padding:1.1rem 1.5rem;margin-top:2rem;
+  font-style:italic;color:var(--muted);
+  font-family:var(--font-serif);font-size:1rem;
+  background:var(--card);border-radius:0 4px 4px 0;
+}
+blockquote cite{
+  display:block;font-style:normal;
+  font-size:.75rem;margin-top:.5rem;
+  font-family:var(--font-mono);color:var(--subtle);
+}
+
+/* ── PROJECTS ────────────────────────────────────────────────── */
+.proj-list{display:flex;flex-direction:column;gap:.8rem}
+.proj-card{
+  display:grid;grid-template-columns:130px 1fr 80px;gap:1.5rem;
+  padding:1.6rem;background:var(--card);border:1px solid var(--border);
+  border-radius:4px;text-decoration:none;color:inherit;
+  transition:all .25s;align-items:start;
+}
+.proj-card:hover{border-color:var(--subtle);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.proj-num{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);letter-spacing:.08em;padding-top:.1rem}
+.proj-title{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.proj-desc{font-size:.83rem;color:var(--muted);line-height:1.65;margin-bottom:.85rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.ptag{
+  font-family:var(--font-mono);font-size:.68rem;
+  padding:.18rem .5rem;background:var(--tag);border-radius:2px;color:var(--muted);
+}
+.proj-link{
+  font-family:var(--font-mono);font-size:.75rem;
+  color:var(--muted);text-align:right;padding-top:.1rem;
+  transition:color .2s;
+}
+.proj-card:hover .proj-link{color:var(--text)}
+.more-link{
+  margin-top:1.8rem;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);
+}
+.more-link a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--border);
+  transition:border-color .2s;}
+.more-link a:hover{border-color:var(--text)}
+
+/* ── PROCESS ─────────────────────────────────────────────────── */
+.proc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.proc-step{
+  padding:1.8rem;border:1px solid var(--border);border-radius:4px;
+  transition:all .25s;
+}
+.proc-step:hover{border-color:var(--accent);transform:translateY(-2px)}
+.proc-num{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);margin-bottom:.6rem}
+.proc-title{font-size:1.08rem;font-weight:700;margin-bottom:.7rem}
+.proc-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* ── SERVICES ────────────────────────────────────────────────── */
+.srv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.srv-card{
+  padding:1.8rem;border:1px solid var(--border);border-radius:4px;
+  transition:all .25s;cursor:default;
+}
+.srv-card:hover{border-color:var(--accent)}
+.srv-num{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);margin-bottom:.5rem}
+.srv-title{font-size:1.05rem;font-weight:700;margin-bottom:.6rem}
+.srv-desc{font-size:.85rem;color:var(--muted);line-height:1.65}
+.srv-arr{
+  display:inline-block;margin-top:.9rem;font-size:1.1rem;
+  transition:transform .25s;color:var(--accent);
+}
+.srv-card:hover .srv-arr{transform:translateX(6px)}
+
+/* ── FOOTER ──────────────────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);
+  padding:5rem 2rem 3rem;max-width:960px;margin:0 auto;
+}
+.footer-cta{
+  font-family:var(--font-serif);
+  font-size:clamp(2.2rem,6vw,4.5rem);
+  font-weight:700;letter-spacing:-.02em;
+  margin-bottom:2.5rem;line-height:1.1;
+}
+.footer-cta em{font-style:italic;color:var(--muted)}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.85rem 2rem;border:1px solid var(--text);
+  color:var(--text);text-decoration:none;
+  font-family:var(--font-mono);font-size:.83rem;
+  letter-spacing:.08em;transition:all .25s;
+}
+.cta-btn:hover{background:var(--text);color:var(--bg)}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:3rem;padding-top:2rem;
+  border-top:1px solid var(--border);
+  font-family:var(--font-mono);font-size:.72rem;color:var(--muted);
+}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{
+  color:var(--muted);text-decoration:none;transition:color .2s;
+}
+.footer-links a:hover{color:var(--text)}
+
+/* ── REVEAL ──────────────────────────────────────────────────── */
+.r{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.r.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media(max-width:768px){
+  .about-grid,.exp-item,.proc-grid,.srv-grid{grid-template-columns:1fr}
+  .stack-row{grid-template-columns:1fr}
+  .proj-card{grid-template-columns:1fr}
+  .proj-num{display:none}
+  .proj-link{display:none}
+  nav .nav-links{display:none}
+  .hero-stats{gap:1.5rem}
+  .hero-meta{gap:1.5rem}
+}
+
+/* ── HERO CONTACT CHIPS ──────────────────────────────────── */
+.hc-chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.45rem 1rem;border-radius:100px;
+  font-family:var(--font-mono);font-size:.78rem;
+  text-decoration:none;font-weight:600;
+  transition:all .25s;letter-spacing:.02em;
+  border:1.5px solid transparent;
+}
+.hc-icon{font-size:.9rem;line-height:1}
+.hc-email{
+  background:rgba(201,168,76,.12);
+  color:var(--accent);
+  border-color:rgba(201,168,76,.35);
+}
+.hc-email:hover{
+  background:rgba(201,168,76,.22);
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px rgba(201,168,76,.2);
+}
+.hc-phone{
+  background:rgba(74,222,128,.08);
+  color:#4ade80;
+  border-color:rgba(74,222,128,.3);
+}
+.hc-phone:hover{
+  background:rgba(74,222,128,.16);
+  border-color:#4ade80;
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px rgba(74,222,128,.15);
+}
+[data-theme="light"] .hc-email{background:rgba(139,105,20,.1);color:#8b6914;border-color:rgba(139,105,20,.35)}
+[data-theme="light"] .hc-phone{background:rgba(22,163,74,.1);color:#16a34a;border-color:rgba(22,163,74,.3)}
+
+/* ── DOWNLOAD RESUME BUTTON ───────────────────────────────── */
+.dl-btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  padding:.6rem 1.4rem;border-radius:6px;
+  background:var(--text);color:var(--bg);
+  text-decoration:none;
+  font-family:var(--font-mono);font-size:.8rem;
+  font-weight:700;letter-spacing:.06em;
+  transition:all .25s;border:1.5px solid var(--text);
+}
+.dl-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--bg);color:var(--text);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:700;transition:transform .3s;
+}
+.dl-btn:hover{
+  background:transparent;color:var(--text);
+  box-shadow:0 4px 24px rgba(255,255,255,.1);
+  transform:translateY(-2px);
+}
+.dl-btn:hover .dl-icon{
+  transform:translateY(3px);
+  background:var(--text);color:var(--bg);
+}
+[data-theme="light"] .dl-btn:hover{box-shadow:0 4px 24px rgba(0,0,0,.15)}
+
+/* ── GET IN TOUCH CTA (email reveal) ─────────────────────── */
+.cta-inner{
+  position:relative;display:inline-flex;
+  align-items:center;overflow:hidden;
+}
+.cta-default,.cta-hover{
+  display:block;transition:transform .3s ease,opacity .3s ease;
+  white-space:nowrap;
+}
+.cta-hover{
+  position:absolute;left:0;top:0;
+  transform:translateY(100%);opacity:0;
+}
+.cta-btn:hover .cta-default{transform:translateY(-100%);opacity:0}
+.cta-btn:hover .cta-hover{transform:translateY(0);opacity:1}
+.cta-btn{overflow:hidden;min-width:220px;justify-content:center}
+
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────────── -->
+<nav>
+  <a href="#hero" class="nav-logo">IC</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#services">Services</a></li>
+  </ul>
+  <button class="theme-btn" id="themeBtn" title="Toggle theme">◐</button>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────────── -->
+<section id="hero" class="hero">
+  <div class="hero-ghost" aria-hidden="true">ISMAIL</div>
+  <div class="hero-inner">
+    <div class="hero-name">ISMAIL<br>CHAMADIA</div>
+    <div class="hero-role">Software Engineer</div>
+    <div class="hero-contacts" style="
+        display:flex;flex-wrap:wrap;gap:.7rem;
+        margin-bottom:1.6rem;
+        animation:fadeUp .8s ease forwards .5s;opacity:0;">
+      <a href="mailto:chamadiaismail@gmail.com" class="hc-chip hc-email">
+        <span class="hc-icon">✉</span>
+        <span>chamadiaismail@gmail.com</span>
+      </a>
+      <a href="tel:+15132762375" class="hc-chip hc-phone">
+        <span class="hc-icon">✆</span>
+        <span>+1 513-276-2375</span>
+      </a>
+    </div>
+    <div class="dl-wrap" style="margin-bottom:1.8rem;animation:fadeUp .8s ease forwards .55s;opacity:0;">
+      <a href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDcgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA3IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQXV0aG9yIChcKGFub255bW91c1wpKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwOTEzMTcxNzE5KzAwJzAwJykgL0NyZWF0b3IgKFwodW5zcGVjaWZpZWRcKSkgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwOTEzMTcxNzE5KzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKFwodW5zcGVjaWZpZWRcKSkgL1RpdGxlIChcKGFub255bW91c1wpKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAzMDE5Cj4+CnN0cmVhbQpHYXUwRj8kIl5sJnEvKjBrYzFjQG51ZHMnI21wKkw9cDstX0srLmolWmU9JyFZciUzZyNZRURLXj4vOj9eSEliVCYva3VaYTVuY2lqSSZrQDpTNygoOCgnWkErImRHLjAqKzheaTstSVY5byVDWEJTTCEzQ15DIW1MUyNacUkmKkgnXUBnNj0vS0JoPGViIWxBcyp1bzVtOiZlVy9URHBTMWMmRjlfakFiRT8iazNvJ0U6OjxpKm5CZ1lRZElePipFMCtAZjcrU1Q8Jjl1Mm1FOGZaaUByMD9kTDNdN2pHYis6WEthMDMrQF1IUiRmQkFGSGp1Yk5TRG5MLXNFW1hbQUQmL1JzPyczZmJLR11iX0s5MGVBMFMmJURDUzRrWTMmbCRNSycmTThLVVdRQHVnS1QoQ2lzbTRcITowKFhOZ0xPJmdgMj1tdVcrY1hhKm0/V1g9J2xRWkJEWG9BLipJLEYjaDwwLVNnalNcPyVuZVZMJWZVVFouVGVxbltMNClGTSUySlQ6TlojZ010KD4iZ1JoNEdVSVBePGptMGc6Mj5Pc0A/Imc5cjk1U0smY0VPXWZXZiE1dTpiXjtEMSlsTFVIIjQ0IUAubzExbms2biFVWUtZci9vRD9TRCskK2BKJidRYE5hRz1KVSRwNm83cWk1Xi83KmpIJCM8L00jVFctOCdiLVFpTEVRNVtgL144UzI8SCclLiQsUWpSOCpJQSNhYmtday4uLFQpZFtYZFE9JkEiRSxlbCEyLiI8MmhsQVBSW0xWTk4lVHNAcCkxPjpdVWlKPF5TRlZVRi0kRlBmak1wL2BXbmF1ZlpdOVRzaytEQlw1OzUxayxQMz9jSWpRPFJnYmEvVTZZUVBtTys7cz5NbD4hQFBRI1kuZXAlYlZmayxEMylRb0glQ0pGJChQXiRTaXA0Qzk1TmxAbF1CKzsjVV10MDYyInUsT1VNSUZBU1VbNkQubCQ9Om1EUyQzZUpVLClEUlxGdCElPDZGSGgpam4hXj4rVHQyNWskU0U7MzhRKk1cLjJCSjZzLzxqNz5YMTVORFFmaVZUL1w/KjxqOl4oZ08oJWldRltOQE9BL1FgUidYQDUkZWFjZkI2RzVdP25HaEwqM0ZWTjs5UGNqSi5DaiJzUiRiQSwlNmQyRjE5MEY1RmFzLy9FKjdMRmdvR1RISS9CX1o/O21NPnI9W0htXVMoaT00QGRdY1pdOlUsTD8oTyM/JXUvISRyJjFTJ0g7aVxNPiQrOHRIKmA+UiIzbyMqYXJJL20xWmFeQ283WT4lb1w1c2lvWlRVSm1hVEdFL2cnXmgqYGdGLWVPLCQ+WEVxQjE1Pzg7ZUlNa2NWTnFLRHBUJWUtTVpEOS4mcGBrQj9ebDZ0VGNaZj1KWDYydDZZczU6I15HUiYnWi1gLk8uQkloXjNkUFJHWFhXL2tkbTdgSSpvJEV1KDlfcEBXLEw9LW5HJmoyXmcyWW8zJklzX0YpSigvNnA8ayFWcDVtMiQ8NEZcPD5BK11qN2ZdaVM8XyMjTUdER1YjRE8jL2kucFtGbSgzTmdoZUlub1w2UTs9NFBWakBLZ2gnQGpHPzp0QCJASG8uNjxIQ29zMEdzYFVmMS8wUl9IZ2xcXmZEKWtmYkgyV21pK2BZY10qWT5kRSZPPWBrRm03VGRgMjJtLVMvVF5BUj8uUkhNJUVePCxJc0JDKVxmKGFbcilRUDAsZmU1JEplXEVmYSJeN2BSISJtQy40TUQ5ZyJEbixWcHQ7TVA0ZC0jT0lvTzZdT1VXVyItMzhDNElyXldtIzdga2N0blFEVVI9VXNVIiQlYWFVdUovQkpeTFVdJFlLRF9caE8sQ1oqYzs2VzBlbzZWSV1LMG85QllINW1yNDRWaFBcTWRqdUw/TT4sVmhVU25GMz8sIyNcLjlHMkImcHUpS3NBPSI9KmMtPG8zPyo4SzAiN1ksNDpWLz1DZ2pNIiw1NjFPczRKbT5uWXBtYyZBR2xrP1BkRWtOXChoU2ssQmROQCg5a3MuPTpcMT9eckdxc3E/VVtyVGV0XVwyTXUoOVZRSzlINnNpI110YyVwZTk6QTlMb0c1XVNSTU4ySTphKzBDVi1kOGs+TVVpOi9sXm8wRVluV2dnWHFDYSFEKUtMSzdWO287UUxdYz1wLnFRWlNPWkktY05VZU5aUjckMHNMNU8paD4jOFkpO1NSU21nNiZHXzc4b1A/cFZMIyk9bDZTRUNcU0gkSklPNT9yRVtNMmlDRVQral9XUktCZk4wbnRRLSctOWdEXnNrXipuKVRAT2JaYyMpSk03ZGtoZSo0IkA1SFo7JDZsbElJOkVVOiZAXWtLK2owM1svXTY8WzlSTkUzVWktKCIqQUI+W2VMLDJmUnQ6Uk1rWSouQlJLZElrUFJGZGJgZyxvUVBrRkFfWV9ycSZWaS5ZPT5VbGxlQic2Nk0jPytDaS0iPEA5ZF4lJlZHbVZFak90azpLRUhNO2hPQE05SHJsJSwjR1FoRlRCciJSR1BrRmh1ZG1XVDNfSUNccTY3UCZkZTNhWlFJbWZZTyhrRTNwJGVVOVxvKWxBT0Y3NGw4XiwzLCQ2UUQzNDszPkdvWmcxakUjNjMkRlcoKFldaWU0XCxiInROYDcpYmMqbS1wcG1IKl4sQmZJSyowTV1bUDtHKWM0S3I5LHFPYUItIy8pR2NJLVI4cEJrLTlMcl1HTlpiUzxoYXFKYClwIjRuP2ViIzAxQWNhJXNQLTVgKFgsZyM1RHJiLHJLWDxucj4jP1RocipONz4iQDA8KFhcX1BZU2tFV1s1Lz83QTk7dU1rMCYjL3E4MjI6SSRLPUIzJjhbLWswcy5YSXA0cjVXJl9GTnFRVyYtVGpXJyNYOU05K0NtTlI+ZkdKQURaKVM9PSUvI0ZoOkZNNkpOKkNBJSw/NFZnaj5DPF9eOWgnWGlUQWszQlxlTGRWRiYoa2hBQi5zJTZaKEBrR05MN0dxJzZdJzdITktDWDhzbm9NKFFnQyxANV4zYXFOPk1mb2AjKF9tWy5UaD8yQkdBVjZnTSFPRWIlYEowSC1laGdIQjgpLjIrWi9uJGM+YUJ0aS5qWE4xP2ElT19qVzlRPDIiVk5aYC9QJF4wSConPVtBRllYWjBEKEooLCJVXS0mQWwiVTYrcl9SbjxAWSg6YFlYZkpQIj0jOzlPQ0I7YjpEPk5DTXM2PWkhUmVpT01zQyhQMidbXVAiNy8qbTEybFZNSWpcQDFjJDRwPVhZUFdzU19OSTQxRkhOYUpePUBiPzdLUTZWMylHPDJxVGdSV0QzcnFqV0RJT09SWkNERSM2RlFkdW5haWZSazouJ0BFcmpAR1U3XGcpKCwpXWI/clk1JVRjOi1vZSRPMSNObyZvcERDdWUiXywlKCYxWidaRjlyaWlgLWFTNF1KWmtkOThDSSZhXThgR00kKGZFVXVwWlhPcm1lcVUzV1dcME9ZaCtXakxSQDZkOzZJKk1HVVRXVGppPC5HNDZIb00lUyM4NjZLXWhAX0xDcmhmOiEuPE83TXMkVj1QSVY6ZmxDRDtfL3VaTFo3aClwKV5ITV8+TjRVX3BpO3IvVlBfIV9eWDEtMkRdaHJdSXMqTCglMCltRFpabic7KSZqVltxSCxnI1wjNEE9TVQ6T2hJK09EWU9HJDktXmk7ZilnL2RTZHBFcyhtcnJFbVFRPEcuSGhUa10zQ2ZnT1szST8zI25xUTVRYDRSQnE+aCxGLFAvOkBWWzQ/IjctXlt1SEFQXixEK08/NWxzbiVpWkIpQzhWZVNwbjEjPSg5SW1jYUlvRDV0QlA6IilaSkImSldoQFEjRD9CPUtTU1YvMERAaEsrMFYzR2cpOShbcmM+SEVDNWVBXl1gcnMlbXRYZFU0RiIwKSFfIyhYM2BYaGZANWZvJ05eLTFgSzU6P0QxOzkpNmVcKk5tYz1lUG1jKWxDbWtDWm8lY21CXjMwRmM9OSokR1VIKUxCO3RYMCwvSyZMITF1KV1AZn4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEwMiAwMDAwMCBuIAowMDAwMDAwMjA5IDAwMDAwIG4gCjAwMDAwMDAzMjEgMDAwMDAgbiAKMDAwMDAwMDUxNCAwMDAwMCBuIAowMDAwMDAwNTgyIDAwMDAwIG4gCjAwMDAwMDA4NjIgMDAwMDAgbiAKMDAwMDAwMDkyMSAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzwzMmRiODAxMTgxMWQ3NGMxYzcwMzk2NTY1ZDExNDlhND48MzJkYjgwMTE4MTFkNzRjMWM3MDM5NjU2NWQxMTQ5YTQ+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDYgMCBSCi9Sb290IDUgMCBSCi9TaXplIDkKPj4Kc3RhcnR4cmVmCjQwMzEKJSVFT0YK"
+         download="Ismail_Chamadia_Resume.pdf"
+         class="dl-btn">
+        <span class="dl-icon">↓</span>
+        <span>Download Resume</span>
+      </a>
+    </div>
+    <p class="hero-tagline">
+      Building backend systems and full-stack products that ship fast,
+      stay reliable, and never need explaining.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Location</span>
+        <span class="meta-value">Cincinnati, OH</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value"><span class="dot"></span>Open to new roles 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Focus</span>
+        <span class="meta-value">Full-Stack · Backend · AI Integration</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" data-target="4" data-suffix="+">0</span>
+        <span class="stat-lbl">Years Experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="3" data-suffix="+">0</span>
+        <span class="stat-lbl">Companies Shipped At</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="50" data-suffix="K+">0</span>
+        <span class="stat-lbl">Daily Requests Handled</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="4" data-suffix=".0">0</span>
+        <span class="stat-lbl">MS GPA — Univ. of Cincinnati</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ────────────────────────────────────────────────────── -->
+<div id="about" class="band">
+  <div class="inner">
+    <div class="sec-num r">01 About</div>
+    <h2 class="sec-title r">From systems<br><em>to solutions</em></h2>
+    <div class="about-grid">
+      <div class="about-text r">
+        <p>I'm a software engineer with <strong>4+ years</strong> building products across
+        the full stack — <strong>React</strong> and <strong>TypeScript</strong> on the front end,
+        <strong>C#</strong> and <strong>Python</strong> underneath, and
+        <strong>Kafka-driven microservices</strong> on <strong>Azure</strong> holding it together.</p>
+        <br>
+        <p>Currently Lead Engineer at <strong>Key Star Gems Inc</strong> in New York City,
+        previously at <strong>Systrix IT Solutions</strong> in Dubai. I've been going deeper into AI systems
+        — <strong>RAG pipelines</strong>, <strong>OpenAI API</strong>, and the harder problem of making
+        LLM-powered features actually reliable in production.</p>
+        <br>
+        <p>I care about the seam between clean backend infrastructure and the layer people actually touch.
+        Engineering excellence isn't a checklist — it's a standard every line of code either meets or doesn't.</p>
+      </div>
+      <div class="r d2">
+        <div class="tag-cloud">
+          <span class="chip">C#</span><span class="chip">Python</span>
+          <span class="chip">TypeScript</span><span class="chip">React</span>
+          <span class="chip">ASP.NET Core</span><span class="chip">Apache Kafka</span>
+          <span class="chip">Microsoft Azure</span><span class="chip">Microservices</span>
+          <span class="chip">RAG</span><span class="chip">OpenAI API</span>
+          <span class="chip">Docker</span><span class="chip">Kubernetes</span>
+          <span class="chip">PostgreSQL</span><span class="chip">Redis</span>
+          <span class="chip">Clean Architecture</span><span class="chip">SOLID</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STACK ─────────────────────────────────────────────────────── -->
+<div id="stack" class="band">
+  <div class="inner">
+    <div class="sec-num r">01.5 Tech Stack</div>
+    <h2 class="sec-title r">Tools I<br><em>reach for</em></h2>
+    <div class="stack-rows">
+      <div class="stack-row r">
+        <span class="row-label">Languages</span>
+        <div class="row-items">
+          <span class="sitem">C#</span><span class="sitem">Python</span>
+          <span class="sitem">TypeScript</span><span class="sitem">JavaScript</span>
+          <span class="sitem">SQL</span>
+        </div>
+      </div>
+      <div class="stack-row r d1">
+        <span class="row-label">Frameworks</span>
+        <div class="row-items">
+          <span class="sitem">.NET / ASP.NET Core</span>
+          <span class="sitem">.NET Framework</span>
+          <span class="sitem">Web API</span>
+          <span class="sitem">Entity Framework Core</span>
+          <span class="sitem">LINQ</span>
+          <span class="sitem">React</span>
+        </div>
+      </div>
+      <div class="stack-row r d2">
+        <span class="row-label">Backend</span>
+        <div class="row-items">
+          <span class="sitem">REST APIs</span>
+          <span class="sitem">Microservices</span>
+          <span class="sitem">MVC</span>
+          <span class="sitem">JWT / Auth &amp; Authz</span>
+          <span class="sitem">API Integration</span>
+          <span class="sitem">Apache Kafka</span>
+          <span class="sitem">SignalR</span>
+        </div>
+      </div>
+      <div class="stack-row r d1">
+        <span class="row-label">Databases</span>
+        <div class="row-items">
+          <span class="sitem">SQL Server</span>
+          <span class="sitem">PostgreSQL</span>
+          <span class="sitem">MySQL</span>
+          <span class="sitem">Redis</span>
+          <span class="sitem">Database Design</span>
+          <span class="sitem">Query Optimization</span>
+          <span class="sitem">Stored Procedures</span>
+        </div>
+      </div>
+      <div class="stack-row r d2">
+        <span class="row-label">Cloud &amp; DevOps</span>
+        <div class="row-items">
+          <span class="sitem">Microsoft Azure</span>
+          <span class="sitem">Azure App Service</span>
+          <span class="sitem">Azure Functions</span>
+          <span class="sitem">Azure SQL</span>
+          <span class="sitem">Docker</span>
+          <span class="sitem">Kubernetes (AKS)</span>
+          <span class="sitem">Terraform</span>
+          <span class="sitem">CI/CD</span>
+          <span class="sitem">GitHub Actions</span>
+          <span class="sitem">Azure DevOps</span>
+          <span class="sitem">Git</span>
+        </div>
+      </div>
+      <div class="stack-row r d3">
+        <span class="row-label">AI</span>
+        <div class="row-items">
+          <span class="sitem">Generative AI</span>
+          <span class="sitem">LLMs</span>
+          <span class="sitem">OpenAI API</span>
+          <span class="sitem">Prompt Engineering</span>
+          <span class="sitem">RAG</span>
+          <span class="sitem">AI Integration</span>
+        </div>
+      </div>
+      <div class="stack-row r">
+        <span class="row-label">Engineering</span>
+        <div class="row-items">
+          <span class="sitem">Clean Architecture</span>
+          <span class="sitem">SOLID Principles</span>
+          <span class="sitem">Design Patterns</span>
+          <span class="sitem">OOP</span>
+          <span class="sitem">Unit Testing</span>
+          <span class="sitem">Integration Testing</span>
+          <span class="sitem">Agile / Scrum</span>
+          <span class="sitem">SDLC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXPERIENCE ─────────────────────────────────────────────────── -->
+<div id="experience" class="band">
+  <div class="inner">
+    <div class="sec-num r">01.8 Experience</div>
+    <h2 class="sec-title r">Where I've<br><em>worked</em></h2>
+    <div class="exp-list">
+      <div class="exp-item r">
+        <div class="exp-date">Apr 2025 — Present<br>New York City, NY</div>
+        <div>
+          <div class="exp-title">Lead Software Engineer</div>
+          <div class="exp-company">Key Star Gems Inc</div>
+          <p class="exp-desc">Architecting and shipping full-stack production systems in React, TypeScript, C#, and Python on Microsoft Azure — handling 50,000+ daily requests. Leading 4+ engineers, establishing SDLC processes from scratch, and integrating Generative AI and OpenAI API to accelerate team velocity by 25%. Reduced production defects 40% and infrastructure provisioning time 50% through Docker/Kubernetes and Terraform-managed deployments.</p>
+        </div>
+      </div>
+      <div class="exp-item r d1">
+        <div class="exp-date">Jan 2023 — Jul 2024<br>Dubai, UAE</div>
+        <div>
+          <div class="exp-title">Software Engineer</div>
+          <div class="exp-company">Systrix IT Solutions</div>
+          <p class="exp-desc">Built enterprise-grade REST APIs and microservices in ASP.NET Core handling 50,000+ daily requests. Reduced API latency by 35% through SQL Server optimization and Entity Framework Core query tuning. Owned Docker/Kubernetes deployments and CI/CD pipelines via Azure DevOps, accelerating deployment cycles by 40%.</p>
+        </div>
+      </div>
+      <div class="exp-item r d2">
+        <div class="exp-date">Jul 2022 — Jan 2023<br>Dubai, UAE</div>
+        <div>
+          <div class="exp-title">Junior Software Engineer</div>
+          <div class="exp-company">Systrix IT Solutions</div>
+          <p class="exp-desc">Improved database query performance by 25% through Entity Framework Core optimization and SQL Server indexing. Designed modular microservices with fault isolation and implemented Redis caching to boost system throughput by 20%.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EDUCATION ───────────────────────────────────────────────────── -->
+<div id="education" class="band">
+  <div class="inner">
+    <div class="sec-num r">01.9 Education</div>
+    <h2 class="sec-title r">Academic<br><em>background</em></h2>
+    <div class="edu-card r">
+      <div class="edu-deg">Master of Science, Information Technology</div>
+      <div class="edu-school">University of Cincinnati · Cincinnati, OH</div>
+      <div class="edu-gpa">GPA 4.0 / 4.0</div>
+    </div>
+    <blockquote class="r">
+      "The best systems are the ones that keep running when everything else breaks — reliability isn't a feature, it's the baseline."
+      <cite>Ismail Chamadia — Working Notes, 2026</cite>
+    </blockquote>
+  </div>
+</div>
+
+<!-- ── PROJECTS ────────────────────────────────────────────────────── -->
+<div id="work" class="band">
+  <div class="inner">
+    <div class="sec-num r">02 Selected Work</div>
+    <h2 class="sec-title r">Recent<br><em>builds</em></h2>
+    <div class="proj-list">
+
+      <a href="https://github.com/ismail-chamadia" class="proj-card r">
+        <div class="proj-num">PROJECT — 01</div>
+        <div>
+          <div class="proj-title">Enterprise Task Management System</div>
+          <p class="proj-desc">Full-stack platform for 100+ concurrent users — role-based auth with JWT and ASP.NET Identity, real-time task updates via SignalR, containerized with Docker, and deployed on Microsoft Azure with a full CI/CD pipeline and OpenAI API integration for intelligent task categorization.</p>
+          <div class="proj-tags">
+            <span class="ptag">ASP.NET Core</span><span class="ptag">React</span>
+            <span class="ptag">SQL Server</span><span class="ptag">SignalR</span>
+            <span class="ptag">Docker</span><span class="ptag">Azure</span>
+            <span class="ptag">JWT</span><span class="ptag">OpenAI API</span>
+          </div>
+        </div>
+        <div class="proj-link">GitHub →</div>
+      </a>
+
+      <div class="proj-card r d1">
+        <div class="proj-num">PROJECT — 02</div>
+        <div>
+          <div class="proj-title">AI-Powered Backend API with RAG Pipeline</div>
+          <p class="proj-desc">Scalable Python backend integrating OpenAI API with a Retrieval-Augmented Generation (RAG) pipeline for intelligent document search — prompt engineering for context-aware responses, vector-based retrieval, async processing for low-latency production use, and PostgreSQL for data persistence.</p>
+          <div class="proj-tags">
+            <span class="ptag">Python</span><span class="ptag">OpenAI API</span>
+            <span class="ptag">RAG</span><span class="ptag">Prompt Engineering</span>
+            <span class="ptag">LLMs</span><span class="ptag">PostgreSQL</span>
+            <span class="ptag">Docker</span><span class="ptag">Azure</span>
+          </div>
+        </div>
+        <div class="proj-link">GitHub →</div>
+      </div>
+
+      <a href="https://github.com/ismail-chamadia" class="proj-card r d2">
+        <div class="proj-num">PROJECT — 03</div>
+        <div>
+          <div class="proj-title">Distributed Microservices Platform</div>
+          <p class="proj-desc">Event-driven microservices system using Apache Kafka for async messaging across 5+ services, deployed on Kubernetes (AKS) via Terraform IaC — Redis caching, SQL Server optimization, JWT/RBAC security, and full CI/CD pipeline via Azure DevOps achieving 40% faster deployments.</p>
+          <div class="proj-tags">
+            <span class="ptag">C#</span><span class="ptag">Apache Kafka</span>
+            <span class="ptag">Kubernetes</span><span class="ptag">Terraform</span>
+            <span class="ptag">Redis</span><span class="ptag">SQL Server</span>
+            <span class="ptag">Azure DevOps</span><span class="ptag">JWT</span>
+          </div>
+        </div>
+        <div class="proj-link">GitHub →</div>
+      </a>
+
+    </div>
+    <div class="more-link r">More on <a href="https://github.com/ismail-chamadia">github.com/ismail-chamadia</a></div>
+  </div>
+</div>
+
+<!-- ── PROCESS ─────────────────────────────────────────────────────── -->
+<div id="process" class="band">
+  <div class="inner">
+    <div class="sec-num r">03 My Process</div>
+    <h2 class="sec-title r">How I<br><em>ship</em></h2>
+    <div class="proc-grid">
+      <div class="proc-step r">
+        <div class="proc-num">01</div>
+        <div class="proc-title">Understand</div>
+        <p class="proc-desc">Read the system before touching it. Trace the data path, find where it actually breaks — not where it looks broken. Map dependencies and failure modes before writing a single line.</p>
+      </div>
+      <div class="proc-step r d1">
+        <div class="proc-num">02</div>
+        <div class="proc-title">Design</div>
+        <p class="proc-desc">Sketch the architecture before the code. Fewer moving parts, clear ownership, failure modes named up front. Clean Architecture and SOLID principles aren't aesthetics — they're decisions that compound.</p>
+      </div>
+      <div class="proc-step r d2">
+        <div class="proc-num">03</div>
+        <div class="proc-title">Build</div>
+        <p class="proc-desc">Ship in small, reviewable increments following Agile/Scrum. Tests around the seams that matter, CI/CD from day one, and code reviews that raise the bar — not just catch bugs.</p>
+      </div>
+      <div class="proc-step r d3">
+        <div class="proc-num">04</div>
+        <div class="proc-title">Verify</div>
+        <p class="proc-desc">Instrument it, watch it under real load, and only then call it done. Monitoring, observability, and performance validation before anything ships to users. Reliability is the last step, not an afterthought.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SERVICES ────────────────────────────────────────────────────── -->
+<div id="services" class="band">
+  <div class="inner">
+    <div class="sec-num r">04 What I Do</div>
+    <h2 class="sec-title r">Core<br><em>strengths</em></h2>
+    <div class="srv-grid">
+      <div class="srv-card r">
+        <div class="srv-num">01</div>
+        <div class="srv-title">Full-Stack Development</div>
+        <p class="srv-desc">React and TypeScript front ends backed by C# and Python services on Azure — built to be maintained, not just shipped. Every layer considered, every dependency intentional.</p>
+        <div class="srv-arr">→</div>
+      </div>
+      <div class="srv-card r d1">
+        <div class="srv-num">02</div>
+        <div class="srv-title">Backend &amp; Microservices</div>
+        <p class="srv-desc">Kafka-based event pipelines, distributed microservices, and REST APIs in ASP.NET Core — designed for throughput, graceful failure, and operational correctness under real load.</p>
+        <div class="srv-arr">→</div>
+      </div>
+      <div class="srv-card r d2">
+        <div class="srv-num">03</div>
+        <div class="srv-title">Cloud &amp; DevOps</div>
+        <p class="srv-desc">Azure deployments with Terraform IaC, Docker/Kubernetes orchestration, and CI/CD pipelines that generate audit-ready deployment trails. Infrastructure as code, not tribal knowledge.</p>
+        <div class="srv-arr">→</div>
+      </div>
+      <div class="srv-card r d3">
+        <div class="srv-num">04</div>
+        <div class="srv-title">AI / LLM Integration</div>
+        <p class="srv-desc">RAG pipelines, OpenAI API integration, and Prompt Engineering — building AI-powered features that are actually reliable in production, not just impressive in a demo.</p>
+        <div class="srv-arr">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-cta r">
+    Let's build<br><em>something solid.</em>
+  </div>
+  <a href="mailto:chamadiaismail@gmail.com" class="cta-btn r">
+    <span class="cta-inner">
+      <span class="cta-default">Get in touch →</span>
+      <span class="cta-hover">✉ chamadiaismail@gmail.com →</span>
+    </span>
+  </a>
+  <div class="footer-bottom r">
+    <span>© 2026 Ismail Chamadia · Cincinnati, OH</span>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/ismail-chamadia">LinkedIn</a>
+      <a href="mailto:chamadiaismail@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── THEME ────────────────────────────────────────────────── */
+const html  = document.documentElement;
+const btn   = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  const t = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', t === 'light' ? 'dark' : 'light');
+  btn.textContent = t === 'light' ? '◐' : '◑';
+});
+
+/* ── COUNTER ──────────────────────────────────────────────── */
+function counter(el) {
+  const target = +el.dataset.target;
+  const suf    = el.dataset.suffix || '+';
+  const dur    = 1800;
+  const t0     = performance.now();
+  (function tick(now) {
+    const p  = Math.min((now - t0) / dur, 1);
+    const e  = 1 - Math.pow(1 - p, 3);        // ease-out cubic
+    el.textContent = Math.floor(e * target) + suf;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target + suf;
+  })(t0);
+}
+
+/* ── INTERSECTION OBSERVERS ───────────────────────────────── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); revObs.unobserve(e.target); }});
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.r').forEach(el => revObs.observe(el));
+
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { counter(e.target); cntObs.unobserve(e.target); }});
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-target]').forEach(el => cntObs.observe(el));
+
+/* ── ACTIVE NAV ───────────────────────────────────────────── */
+const navAs  = document.querySelectorAll('.nav-links a');
+const secIds = ['about','stack','experience','work','process','services'];
+
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
+    }
+  });
+}, { threshold: 0.35 });
+
+secIds.forEach(id => { const el = document.getElementById(id); if (el) navObs.observe(el); });
+
+/* ── SMOOTH SCROLL ────────────────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+
+/* ── TRIGGER COUNTERS IF ALREADY VISIBLE ON LOAD ─────────── */
+setTimeout(() => {
+  document.querySelectorAll('[data-target]').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) counter(el);
+  });
+}, 1300);
+</script>
+</body>
+</html>
